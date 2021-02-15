@@ -6,15 +6,19 @@ void main() => runApp(MyApp());
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State {
-  var questionIndex = 0;
+class _MyAppState extends State {
+  var _questionIndex = 0;
   void answerQuestions() {
     setState(() {
-      questionIndex++;
+      if (_questionIndex <=0) {
+        _questionIndex++;
+      } else {
+        print("No more questions please!");
+      }
     });
   }
 
@@ -29,7 +33,7 @@ class MyAppState extends State {
         ),
         body: Column(
           children: [
-            Question(questions[questionIndex]),
+            Question(questions[_questionIndex]),
             RaisedButton(
               child: Text("Answer 1"),
               onPressed: answerQuestions,
