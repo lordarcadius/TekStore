@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_catalog/utils/routes.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
 
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String name = "";
+  bool changeButton = false;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -24,7 +31,7 @@ class LoginScreen extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                'Welcome',
+                'Welcome $name',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -39,6 +46,10 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TextFormField(
+                      onChanged: (value) {
+                        name = value;
+                        setState(() {});
+                      },
                       decoration: InputDecoration(
                         hintText: "Enter Username",
                         labelText: "Username",
@@ -54,14 +65,51 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(
                       height: 40,
                     ),
-                    ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(minimumSize: Size(150, 40)),
+                    /*  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(150, 40),
+                      ),
                       onPressed: () {
                         print('Login successful.');
                         Navigator.pushNamed(context, MyRoutes.homeRoute);
                       },
                       child: Text('Login'),
+                    ) */
+
+                    InkWell(
+                      onTap: () async {
+                        print('Login successful.');
+
+                        setState(() {
+                          changeButton = true;
+                        });
+
+                        await Future.delayed(Duration(seconds: 1));
+                        Navigator.pushNamed(context, MyRoutes.homeRoute);
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(seconds: 1),
+                        width: changeButton ? 50 : 150,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: changeButton
+                            ? Icon(
+                                Icons.done,
+                                color: Colors.white,
+                              )
+                            : Text(
+                                'Login',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurple,
+                            borderRadius:
+                                BorderRadius.circular(changeButton ? 50 : 8)),
+                      ),
                     )
                   ],
                 ),
