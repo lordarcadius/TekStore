@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         //home: HomeScreen(),
         themeMode: ThemeMode.light,
         theme: ThemeData(
