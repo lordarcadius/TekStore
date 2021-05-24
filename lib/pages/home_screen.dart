@@ -10,13 +10,14 @@ class HomeScreen extends StatelessWidget {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Flutter App'),
+          title: Text('Catalog App'),
         ),
         body: Center(
           child: Container(
             child: Text('Welcome to $days Days of Flutter'),
           ),
         ),
+        backgroundColor: Colors.white,
         drawer: MyDrawer(),
       ),
     );

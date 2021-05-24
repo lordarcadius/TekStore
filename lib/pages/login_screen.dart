@@ -23,6 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       await Future.delayed(Duration(seconds: 1));
+      // SystemChrome.setSystemUIOverlayStyle(
+      //   SystemUiOverlayStyle(statusBarColor: Colors.deepPurple),
+      // );
       await Navigator.pushNamed(context, MyRoutes.homeRoute);
       setState(() {
         changeButton = false;
