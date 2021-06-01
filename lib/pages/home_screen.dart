@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: MyThemes.creamColor,
       body: SafeArea(
+        bottom: false,
         child: Container(
           padding: Vx.m32,
           child: Column(
