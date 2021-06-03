@@ -14,9 +14,9 @@ class HomeDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      backgroundColor: MyThemes.creamColor,
+      backgroundColor: Theme.of(context).canvasColor,
       bottomNavigationBar: Container(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         padding: EdgeInsets.only(right: 10),
         child: ButtonBar(
           alignment: MainAxisAlignment.spaceBetween,
@@ -25,13 +25,13 @@ class HomeDetailPage extends StatelessWidget {
             "\$${catalog.price}".text.bold.xl3.make(),
             ElevatedButton(
               onPressed: () {},
-              child: "Buy".text.make(),
+              child: "Add to cart".text.make(),
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all(MyThemes.darkBluishColor),
+                    MaterialStateProperty.all(Theme.of(context).buttonColor),
                 shape: MaterialStateProperty.all(StadiumBorder()),
               ),
-            ).wh(100, 50)
+            ).wh(120, 50)
           ],
         ).p16(),
       ),
@@ -49,20 +49,25 @@ class HomeDetailPage extends StatelessWidget {
                 arcType: VxArcType.CONVEY,
                 edge: VxEdge.TOP,
                 child: Container(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   width: context.screenWidth,
                   child: Column(
                     children: [
                       catalog.name.text.xl4
-                          .color(MyThemes.darkBluishColor)
+                          .color(Theme.of(context).accentColor)
                           .bold
                           .make(),
                       catalog.desc.text
                           .textStyle(context.captionStyle)
                           .xl
                           .make(),
+                      "Voluptua vero amet vero sadipscing et ut sanctus. Sadipscing consetetur eos magna sadipscing. Et takimata ipsum kasd nonumy et aliquyam. Sadipscing consetetur dolor consetetur ipsum sed est no, erat dolor ut kasd diam dolor sed sed invidunt sed. Duo sit sea invidunt sed ipsum takimata sea, eirmod eos lorem est."
+                          .text
+                          .textStyle(context.captionStyle)
+                          .make()
+                          .p16(),
                     ],
-                  ).py64(),
+                  ).pOnly(top: 64),
                 ),
               ),
             )

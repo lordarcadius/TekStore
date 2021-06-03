@@ -35,12 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-    ));
-    return SafeArea(
-      child: Material(
-        color: Colors.white,
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarColor: Theme.of(context).canvasColor,
+    // ));
+    return Scaffold(
+      backgroundColor: Theme.of(context).canvasColor,
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 40,
                       ),
                       Material(
-                        color: Colors.deepPurple,
+                        color: Theme.of(context).buttonColor,
                         borderRadius:
                             BorderRadius.circular(changeButton ? 50 : 8),
                         child: InkWell(

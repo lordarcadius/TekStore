@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_catalog/utils/routes.dart';
 import 'package:flutter_catalog/widgets/home_widgets/catalog_header.dart';
 import 'package:flutter_catalog/widgets/home_widgets/catalog_list.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -36,7 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyThemes.creamColor,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, MyRoutes.cartRoute);
+        },
+        child: Icon(
+          CupertinoIcons.cart,
+          color: Colors.white,
+        ),
+        backgroundColor: Theme.of(context).buttonColor,
+      ),
+      backgroundColor: Theme.of(context).canvasColor,
       body: SafeArea(
         bottom: false,
         child: Container(
@@ -47,7 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
               CatalogHeader(),
               (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
                   ? CatalogList().expand()
-                  : CircularProgressIndicator().centered().expand(),
+                  : CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ).centered().expand(),
             ],
           ),
         ),
