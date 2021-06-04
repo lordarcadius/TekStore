@@ -1,5 +1,7 @@
 class CatalogModel {
   static List<Item> items;
+
+  //Get item by ID
 }
 
 class Item {
