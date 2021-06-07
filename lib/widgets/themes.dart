@@ -21,7 +21,7 @@ class MyThemes {
       );
 
   static ThemeData darkTheme(BuildContext context) => ThemeData(
-    brightness: Brightness.dark,
+        brightness: Brightness.dark,
         appBarTheme: AppBarTheme(
           color: darkCreamColor,
           elevation: 0.0,
