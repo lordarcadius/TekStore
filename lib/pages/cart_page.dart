@@ -38,7 +38,11 @@ class _CartTotal extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          "\$${_cart.totalPrice}".text.xl4.color(Theme.of(context).accentColor).make(),
+          "\$${_cart.totalPrice}"
+              .text
+              .xl4
+              .color(Theme.of(context).accentColor)
+              .make(),
           ElevatedButton(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -70,17 +74,24 @@ class __CartListState extends State<_CartList> {
   Widget build(BuildContext context) {
     final _cart = CartModel();
     return Container(
-      child: ListView.builder(
-        itemCount: _cart.items?.length,
-        itemBuilder: (context, index) => ListTile(
-          leading: Icon(Icons.done),
-          trailing: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.remove_circle_outline),
-          ),
-          title: _cart.items[index].name.text.make(),
-        ),
-      ),
+      child: _cart.items.isEmpty
+          ? "Nothing to show".text.xl3.makeCentered()
+          : ListView.builder(
+              itemCount: _cart.items?.length,
+              itemBuilder: (context, index) => ListTile(
+                leading: Icon(Icons.done),
+                trailing: IconButton(
+                  onPressed: () {
+                    _cart.removeItem(_cart.items[index]);
+                    setState(() {
+                      
+                    });
+                  },
+                  icon: Icon(Icons.remove_circle_outline),
+                ),
+                title: _cart.items[index].name.text.make(),
+              ),
+            ),
     );
   }
 }
