@@ -9,6 +9,7 @@ import 'package:flutter_catalog/widgets/home_widgets/catalog_header.dart';
 import 'package:flutter_catalog/widgets/home_widgets/catalog_list.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter_catalog/models/catalog.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -18,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final url = 'https://api.jsonbin.io/b/604dbddb683e7e079c4eefd3';
   @override
   void initState() {
     super.initState();
@@ -26,8 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   loadData() async {
     await Future.delayed(Duration(seconds: 2));
-    final catalogJson =
-        await rootBundle.loadString("assets/files/catalog.json");
+    // final catalogJson =
+    //     await rootBundle.loadString("assets/files/catalog.json");
+    final response = await http.get(Uri.parse(url));
+    final catalogJson = response.body;
+
     var decodedData = jsonDecode(catalogJson);
     var productsData = decodedData["products"];
     CatalogModel.items = List.from(productsData)
@@ -51,7 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,
           ),
           backgroundColor: Theme.of(context).buttonColor,
-        ).badge(color: Vx.red500, size: 23, count: _cart.items.length,textStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        ).badge(
+            color: Vx.red500,
+            size: 23,
+            count: _cart.items.length,
+            textStyle:
+                TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
       ),
       backgroundColor: Theme.of(context).canvasColor,
       body: SafeArea(
