@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final url = 'https://api.jsonbin.io/b/604dbddb683e7e079c4eefd3';
+  final url = 'https://api.vipuljha.com/apis/tekstore/tekstore.json';
   @override
   void initState() {
     super.initState();
