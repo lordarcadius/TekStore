@@ -1,21 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/core/store.dart';
 import 'package:flutter_catalog/models/cart.dart';
+import 'package:pay/pay.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor,
+      backgroundColor: context.canvasColor,
       appBar: AppBar(
-        title: Text(
-          "Cart",
-          style: TextStyle(color: Theme.of(context).accentColor),
-        ),
+        backgroundColor: Colors.transparent,
+        title: "Cart".text.make(),
       ),
       body: Column(
         children: [
@@ -29,42 +25,79 @@ class CartPage extends StatelessWidget {
 }
 
 class _CartTotal extends StatelessWidget {
-  const _CartTotal({Key key}) : super(key: key);
-
+  final _paymentItems = <PaymentItem>[];
   @override
   Widget build(BuildContext context) {
     final CartModel _cart = (VxState.store as MyStore).cart;
     return SizedBox(
-      height: 120,
+      height: 200,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           VxBuilder(
             mutations: {RemoveMutation},
-            builder: (context, myStore, _) {
+            builder: (context, _) {
+              _paymentItems.add(PaymentItem(
+                amount: _cart.totalPrice.toString(),
+                label: "Vipul's Project",
+                status: PaymentItemStatus.final_price,
+              ));
               return "\$${_cart.totalPrice}"
                   .text
-                  .xl4
-                  .color(Theme.of(context).accentColor)
+                  .xl5
+                  .color(context.theme.accentColor)
                   .make();
             },
           ),
-          ElevatedButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: 'Buying not supported yet.'.text.make(),
-              ));
-            },
-            child: "Buy".text.make(),
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all(Theme.of(context).buttonColor),
-              shape: MaterialStateProperty.all(StadiumBorder()),
-            ),
-          ).wh(75, 40)
+          30.widthBox,
+          Row(
+            children: [
+              ApplePayButton(
+                paymentConfigurationAsset: 'applepay.json',
+                paymentItems: _paymentItems,
+                width: 200,
+                height: 50,
+                style: ApplePayButtonStyle.black,
+                type: ApplePayButtonType.buy,
+                margin: const EdgeInsets.only(top: 15.0),
+                onPaymentResult: (data) {
+                  print(data);
+                },
+                loadingIndicator: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              GooglePayButton(
+                paymentConfigurationAsset: 'gpay.json',
+                paymentItems: _paymentItems,
+                width: 200,
+                height: 50,
+                style: GooglePayButtonStyle.black,
+                type: GooglePayButtonType.pay,
+                margin: const EdgeInsets.only(top: 15.0),
+                onPaymentResult: (data) {
+                  print(data);
+                },
+                loadingIndicator: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ],
+          )
+          // ElevatedButton(
+          //   onPressed: () {
+          //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //       content: "Buying not supported yet.".text.make(),
+          //     ));
+          //   },
+          //   style: ButtonStyle(
+          //       backgroundColor:
+          //           MaterialStateProperty.all(context.theme.buttonColor)),
+          //   child: "Buy".text.white.make(),
+          // ).w32(context)
         ],
       ),
-    ).pOnly(left: 32, right: 32);
+    );
   }
 }
 
@@ -73,20 +106,18 @@ class _CartList extends StatelessWidget {
   Widget build(BuildContext context) {
     VxState.watch(context, on: [RemoveMutation]);
     final CartModel _cart = (VxState.store as MyStore).cart;
-    return Container(
-      child: _cart.items.isEmpty
-          ? "Nothing to show".text.xl3.makeCentered()
-          : ListView.builder(
-              itemCount: _cart.items?.length,
-              itemBuilder: (context, index) => ListTile(
-                leading: Icon(Icons.done),
-                trailing: IconButton(
-                  onPressed: () => RemoveMutation(_cart.items[index]),
-                  icon: Icon(Icons.remove_circle_outline),
-                ),
-                title: _cart.items[index].name.text.make(),
+    return _cart.items.isEmpty
+        ? "Nothing to show".text.xl3.makeCentered()
+        : ListView.builder(
+            itemCount: _cart.items?.length,
+            itemBuilder: (context, index) => ListTile(
+              leading: Icon(Icons.done),
+              trailing: IconButton(
+                icon: Icon(Icons.remove_circle_outline),
+                onPressed: () => RemoveMutation(_cart.items[index]),
               ),
+              title: _cart.items[index].name.text.make(),
             ),
-    );
+          );
   }
 }
