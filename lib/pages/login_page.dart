@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return "Username cannot be empty";
-                          } else if (value != "admin") {
+                          } else if (value != "vipul") {
                             return "Wrong username";
                           }
 
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return "Password cannot be empty";
-                          }else if (value != "admin") {
+                          }else if (value != "vipul") {
                             return "Wrong password";
                           }
 
